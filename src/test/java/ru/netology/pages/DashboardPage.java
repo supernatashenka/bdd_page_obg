@@ -25,15 +25,15 @@ public class DashboardPage {
         return extractBalance(text);
     }
 
-    public int getFirstCardBalance(int index) {
-        val text = cards.first().text();
-        return extractBalance(text);
-    }
-
-    public int getSecondCardBalance(int index) {
-        val text = cards.get(1).text();
-        return extractBalance(text);
-    }
+//    public int getFirstCardBalance(int index) {
+//        val text = cards.first().text();
+//        return extractBalance(text);
+//    }
+//
+//    public int getSecondCardBalance(int index) {
+//        val text = cards.get(1).text();
+//        return extractBalance(text);
+//    }
 
     private int extractBalance(String text) {
         val start = text.indexOf(balanceStart);

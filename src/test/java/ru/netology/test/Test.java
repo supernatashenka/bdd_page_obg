@@ -36,15 +36,15 @@ public class Test {
     void shouldTransferFromFirstCardToSecondCard() {
         var firstCardInfo = getFirstCardInfo();
         var secondCardInfo = getSecondCardInfo();
-        var firstCardBalance = dashboardPage.getFirstCardBalance(0);
-        var secondCardBalance = dashboardPage.getSecondCardBalance(1);
+        var firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
+        var secondCardBalance = dashboardPage.getCardBalance(secondCardInfo);
         var amount = generateValidAmount(firstCardBalance);
         var expectedFirstCardBalanceAfterTransfer = firstCardBalance - amount;
         var expectedSecondCardBalanceAfterTransfer = secondCardBalance + amount;
         var moneyTransferPage = dashboardPage.selectCardToTransfer(secondCardInfo);
         dashboardPage = moneyTransferPage.successfulTransfer(valueOf(amount), firstCardInfo);
-        var actualFirstCardBalanceAfterTransfer = dashboardPage.getFirstCardBalance(0);
-        var actualFSecondCardBalanceAfterTransfer = dashboardPage.getSecondCardBalance(1);
+        var actualFirstCardBalanceAfterTransfer = dashboardPage.getCardBalance(firstCardInfo);
+        var actualFSecondCardBalanceAfterTransfer = dashboardPage.getCardBalance(secondCardInfo);
         assertEquals(expectedFirstCardBalanceAfterTransfer, actualFirstCardBalanceAfterTransfer);
         assertEquals(expectedSecondCardBalanceAfterTransfer, actualFSecondCardBalanceAfterTransfer);
 
@@ -54,15 +54,15 @@ public class Test {
     void shouldTransferFromSecondCardToFirst() {
         var firstCardInfo = getFirstCardInfo();
         var secondCardInfo = getSecondCardInfo();
-        var firstCardBalance = dashboardPage.getFirstCardBalance(0);
-        var secondCardBalance = dashboardPage.getSecondCardBalance(1);
+        var firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
+        var secondCardBalance = dashboardPage.getCardBalance(secondCardInfo);
         var amount = generateValidAmount(secondCardBalance);
         var firstCardBalanceAfterTransfer = firstCardBalance + amount;
         var secondCardBalanceAfterTransfer = secondCardBalance - amount;
         var moneyTransferPage = dashboardPage.selectCardToTransfer(firstCardInfo);
         dashboardPage = moneyTransferPage.successfulTransfer(valueOf(amount), secondCardInfo);
-        var actualFirstCardBalanceAfterTransfer = dashboardPage.getFirstCardBalance(0);
-        var actualFSecondCardBalanceAfterTransfer = dashboardPage.getSecondCardBalance(1);
+        var actualFirstCardBalanceAfterTransfer = dashboardPage.getCardBalance(firstCardInfo);
+        var actualFSecondCardBalanceAfterTransfer = dashboardPage.getCardBalance(secondCardInfo);
         assertEquals(firstCardBalanceAfterTransfer, actualFirstCardBalanceAfterTransfer);
         assertEquals(secondCardBalanceAfterTransfer, actualFSecondCardBalanceAfterTransfer);
     }
@@ -71,14 +71,14 @@ public class Test {
     void transferIfAmountOverLimit() {
         var firstCardInfo = getFirstCardInfo();
         var secondCardInfo = getSecondCardInfo();
-        var firstCardBalance = dashboardPage.getFirstCardBalance(0);
-        var secondCardBalance = dashboardPage.getSecondCardBalance(1);
-        var amount = generateInvalidAmount(40000);
+        var firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
+        var secondCardBalance = dashboardPage.getCardBalance(secondCardInfo);
+        var amount = generateInvalidAmount(secondCardBalance);
         var moneyTransferPage = dashboardPage.selectCardToTransfer(firstCardInfo);
-        moneyTransferPage.transfer(valueOf(amount), firstCardInfo);
+        moneyTransferPage.transfer(String.valueOf(amount), secondCardInfo);
         moneyTransferPage.findErrorNotification("Перевод невозможен. На карте недостаточно средств");
-        var actualFirstCardBalanceAfterTransfer = dashboardPage.getFirstCardBalance(0);
-        var actualFSecondCardBalanceAfterTransfer = dashboardPage.getSecondCardBalance(1);
+        var actualFirstCardBalanceAfterTransfer = dashboardPage.getCardBalance(firstCardInfo);
+        var actualFSecondCardBalanceAfterTransfer = dashboardPage.getCardBalance(secondCardInfo);
         assertEquals(firstCardBalance, actualFirstCardBalanceAfterTransfer);
         assertEquals(secondCardBalance, actualFSecondCardBalanceAfterTransfer);
 
